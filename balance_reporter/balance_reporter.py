@@ -1,6 +1,18 @@
 import csv
+
 from .transaction import Transaction
-from .statement_format import StatementFormat
+from .statement_format import StatementFormat, BunqCsv, IngCsv
+
+formats = {
+    "bunq-csv": BunqCsv(),
+    "ing-csv": IngCsv(),
+}
+
+def get_available_formats() -> set[str]:
+    return set(formats.keys())
+
+def get_format(format_name: str) -> StatementFormat | None:
+    return formats.get(format_name)
 
 def get_transactions(filename: str, format: StatementFormat) -> list[Transaction]:
     transactions: list[Transaction] = []
